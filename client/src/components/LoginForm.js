@@ -27,6 +27,12 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+        },
+    });
+
 const LoginForm = () => {
     const [loginErrors, setLoginErrors] = useState([]);
     const navigate = useNavigate();
@@ -72,7 +78,7 @@ const LoginForm = () => {
                 Sign in
             </Typography>
             <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
-                {loginErrors.hasOwnProperty('auth') ? <div className="alert alert-danger p-1">{loginErrors.auth.message}</div> : ""}  
+                {loginErrors.hasOwnProperty('auth') ? <div className="alert alert-danger p-1 mt-1 mb-0">{loginErrors.auth.message}</div> : ""}  
                 <TextField
                 onChange={(e)=>{onChangeHandlerLogin(e)}}
                 margin="normal"

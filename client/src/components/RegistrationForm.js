@@ -28,6 +28,12 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+        },
+    });
+
 const RegistrationForm = () => {
     const [registrationErrors, setRegistrationErrors] = useState({});
     const navigate = useNavigate();
@@ -98,7 +104,7 @@ const RegistrationForm = () => {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                    {registrationErrors.hasOwnProperty('lastName') ? <div className="alert alert-danger p-1">{registrationErrors.lastName.message}</div> : ""}
+                        {registrationErrors.hasOwnProperty('lastName') ? <div className="alert alert-danger p-1">{registrationErrors.lastName.message}</div> : ""}
                         <TextField
                         onChange={(e)=>{onChangeHandlerRegister(e)}}
                         required
@@ -110,7 +116,7 @@ const RegistrationForm = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                    {registrationErrors.hasOwnProperty('email') ? <div className="alert alert-danger p-1">{registrationErrors.email.message}</div> : ""}
+                        {registrationErrors.hasOwnProperty('email') ? <div className="alert alert-danger p-1">{registrationErrors.email.message}</div> : ""}
                         <TextField
                         onChange={(e)=>{onChangeHandlerRegister(e)}}
                         required
@@ -122,7 +128,7 @@ const RegistrationForm = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                    {registrationErrors.hasOwnProperty('password') ? <div className="alert alert-danger p-1">{registrationErrors.password.message}</div> : ""}
+                        {registrationErrors.hasOwnProperty('password') ? <div className="alert alert-danger p-1">{registrationErrors.password.message}</div> : ""}
                         <TextField
                         onChange={(e)=>{onChangeHandlerRegister(e)}}
                         required
@@ -135,7 +141,7 @@ const RegistrationForm = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                    {registrationErrors.hasOwnProperty('confirmPassword') ? <div className="alert alert-danger p-1">{registrationErrors.confirmPassword.message}</div> : ""}
+                        {registrationErrors.hasOwnProperty('confirmPassword') ? <div className="alert alert-danger p-1">{registrationErrors.confirmPassword.message}</div> : ""}
                         <TextField
                         onChange={(e)=>{onChangeHandlerRegister(e)}}
                         required

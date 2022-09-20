@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegistrationForm';
 
@@ -20,9 +20,7 @@ function TabPanel(props) {
         >
         {value === index && (
             <Box sx={{ p: 3 }}>
-                {/* <Typography> */}
-                    {children}
-                    {/* </Typography> */}
+                {children}
             </Box>
         )}
         </div>
@@ -42,6 +40,14 @@ function a11yProps(index) {
     };
 }
 
+const theme = createTheme();
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+        },
+    });
+
 const AuthPage = () => {
     const [value, setValue] = React.useState(0);
 
@@ -50,6 +56,7 @@ const AuthPage = () => {
     };
 
     return (
+        <ThemeProvider theme={theme}>
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -64,6 +71,7 @@ const AuthPage = () => {
                 <RegistrationForm />
             </TabPanel>
         </Box>
+        </ThemeProvider>
     )
 }
 
