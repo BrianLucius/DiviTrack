@@ -53,7 +53,7 @@ const LoginForm = () => {
         axios.post("http://localhost:8000/api/login", formObject)
         .then(response => {
             console.log(response);
-            navigate("/home");})
+            navigate("/portfolio");})
         .catch(error => {
             console.log("There was an error: ", error);
             setLoginErrors(error.response.data.errors);})
