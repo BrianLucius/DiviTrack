@@ -28,23 +28,9 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        },
-    });
-
 const RegistrationForm = () => {
     const [registrationErrors, setRegistrationErrors] = useState({});
     const navigate = useNavigate();
-
-    const [registrationForm, setRegistrationForm] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-    })
 
     const onChangeHandlerRegister = (e) => {
         if (registrationErrors.hasOwnProperty(e.target.name)) {

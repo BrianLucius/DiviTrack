@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
@@ -81,14 +81,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const theme = createTheme();
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        },
-    });
-
 const PortfolioPage = () => {
-    const userContext = createContext(null);
     const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
     const [open, setOpen] = React.useState(true);
@@ -159,9 +152,6 @@ const PortfolioPage = () => {
                     Portfolio
                 </Typography>
                 <IconButton color="inherit">
-                    {/* <Badge badgeContent={4} color="secondary">
-                    <NotificationsIcon />
-                    </Badge> */}
                     {userData.firstName} {userData.lastName}
                 </IconButton>
                 </Toolbar>

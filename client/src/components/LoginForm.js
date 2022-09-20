@@ -27,12 +27,6 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        },
-    });
-
 const LoginForm = () => {
     const [loginErrors, setLoginErrors] = useState([]);
     const navigate = useNavigate();
