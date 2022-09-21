@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import AuthPage from "./components/AuthPage";
 import PortfolioPage from "./components/PortfolioPage";
-import './App.css';
 
 function App() {
 
