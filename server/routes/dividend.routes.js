@@ -8,7 +8,7 @@ module.exports = (app) => {
     app.get("/api/dividends/:id", DividendController.findOneDividend);
 
     //Display Dividend by Symbol
-    app.get("/api/dividends/symbol/:id", DividendController.findDividendBySymbol);
+    app.get("/api/dividends/symbol/:symbol", DividendController.findDividendBySymbol);
 
     //Create new Dividend
     app.post("/api/dividends", DividendController.createOneDividend);

@@ -8,7 +8,7 @@ module.exports = (app) => {
     app.get("/api/portfolios/:id", PortfolioController.findOnePortfolio);
 
     //Display Portfolio by User
-    app.get("/api/portfolios/user/:id", PortfolioController.findPortfolioByUser);
+    app.get("/api/portfolios/user/:userId", PortfolioController.findPortfolioByUser);
 
     //Create new Portfolio
     app.post("/api/portfolios", PortfolioController.createOnePortfolio);
