@@ -11,6 +11,7 @@ import axios from 'axios';
 const AddSymbol = () => {
   const [symbolDetails, setSymbolDetails] = useState({});
   const [symbolLoaded, setSymbolLoaded] = useState(false);
+  const [symbolFound, setSymbolFound] = useState(false);
   const [userData, setUserData] = useOutletContext();
   const navigate = useNavigate();
 
@@ -36,40 +37,32 @@ const AddSymbol = () => {
         })
   }
 
-  const handleAddSymbol = (e) => {
+  async function handleAddSymbol(e) {
       e.preventDefault();
       const polygon_api_key = process.env.REACT_APP_POLYGON_API_KEY;
 
       const formData = new FormData(e.currentTarget);
       let formObject = {};
-      formData.forEach((value, key) => formObject[key] = value);
+      formData.forEach((value, key) => formObject[key] = (key="symbol" ? value.toLowerCase() : value));
       formObject["userId"] = userData.loggedInUserId;
-      // console.log(formObject);
-      axios.post("http://localhost:8000/api/portfolios", formObject)
-      .then(response => {
-          console.log(response);})
-      .catch(error => {
-          console.log("There was an error: ", error);
-          })
 
-      let dividendData = ({});
-      axios.get(`https://api.polygon.io/v3/reference/dividends?ticker=${formObject.symbol.toUpperCase()}&apiKey=${polygon_api_key}`)
-      .then(response => {
-        dividendData["symbol"] = formObject.symbol;
-        dividendData["dividendHistory"] = response.data.results;
-        console.log("Dividend Data: ", dividendData);
-        axios.post("http://localhost:8000/api/dividends", dividendData)
-        .then(response => {
-          console.log(response);
-          setSymbolDetails({});
-          })
-        .catch(error => {
-          console.log("There was an error: ", error);
-          })
-        })
-      .catch(error => {
-        console.log("There was an error: ", error);
-        })
+    try {
+      await axios.post("http://localhost:8000/api/portfolios", formObject);
+      const checkDividend = await axios.get(`http://localhost:8000/api/dividends/symbol/${formObject.symbol.toLowerCase()}`);
+      setSymbolFound(checkDividend.data.data.length !== 0); 
+      if (!symbolFound) {
+        let dividendData = ({});
+        const getDividends = await axios.get(`https://api.polygon.io/v3/reference/dividends?ticker=${formObject.symbol.toUpperCase()}&apiKey=${polygon_api_key}`);
+        dividendData["symbol"] = formObject.symbol.toLowerCase();
+        dividendData["dividendHistory"] = getDividends.data.results;
+        await axios.post("http://localhost:8000/api/dividends", dividendData);
+        setSymbolDetails({});
+        navigate("/home/portfolio");
+      }
+      
+    } catch(error) { 
+      console.log("There was an error: ", error);
+      };
   }
 
   return (

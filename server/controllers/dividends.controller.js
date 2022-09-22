@@ -21,11 +21,11 @@ module.exports.findOneDividend = (req, res) => {
         .catch(err => res.json({message: 'Something went wrong', error: err}));
 }
 
-//Find Dividend By User
+//Find Dividend By Symbol
 module.exports.findDividendBySymbol = (req, res) => {
     Dividend.find({symbol: req.params.symbol})
         .then(foundDividend => res.json({data: foundDividend}))
-        .catch(err => res.json({message: 'Something went wrong', error: err}));
+        .catch(err => res.status(400).json({message: 'Something went wrong', error: err}));
 }
 
 //Update Dividend by _id
