@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -81,8 +81,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const theme = createTheme();
 
-const PortfolioPage = () => {
+const Home = () => {
     const navigate = useNavigate();
+    const [activePageName, setActivePageName] = useState("Portfolio");
     const [userData, setUserData] = useState([]);
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
@@ -99,7 +100,6 @@ const PortfolioPage = () => {
     }, []);
 
     const handleOnClick = (e, action) => {
-        console.log(action);
         switch (action) {
             case 'logout':
                 axios.post("http://localhost:8000/api/logout")
@@ -110,10 +110,12 @@ const PortfolioPage = () => {
                     .catch(error => console.log("There was an error: ", error))
                 break;
             case 'portfolio':
-                navigate("/portfolio");
+                setActivePageName("Portfolio");
+                navigate("portfolio");
                 break;
             case 'addSymbol':
-                navigate("/addSymbol");
+                setActivePageName("Add New Symbol")
+                navigate("add");
                 break;
             default:
                 break;
@@ -149,7 +151,7 @@ const PortfolioPage = () => {
                     noWrap
                     sx={{ flexGrow: 1 }}
                 >
-                    Portfolio
+                    {activePageName}
                 </Typography>
                 <IconButton color="inherit">
                     {userData.firstName} {userData.lastName}
@@ -166,15 +168,12 @@ const PortfolioPage = () => {
                 }}
                 >
                 <IconButton onClick={toggleDrawer}>
-                    DiviTrack
                     <ChevronLeftIcon />
                 </IconButton>
                 </Toolbar>
                 <Divider />
                 <List component="nav">
                 <MainListItems onNewClick={handleOnClick}/>
-                {/* <Divider sx={{ my: 1 }} />
-                {secondaryListItems} */}
                 </List>
             </Drawer>
             <Box
@@ -192,37 +191,17 @@ const PortfolioPage = () => {
                 <Toolbar />
                 <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
-                    {/* Chart */}
-                    <Grid item xs={12} md={8} lg={9}>
-                    <Paper
-                        sx={{
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: 240,
-                        }}
-                    >
-                        {/* <Chart /> */}
-                    </Paper>
-                    </Grid>
-                    {/* Recent Deposits */}
-                    <Grid item xs={12} md={4} lg={3}>
-                    <Paper
-                        sx={{
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: 240,
-                        }}
-                    >
-                        {/* <Deposits /> */}
-                    </Paper>
-                    </Grid>
-                    {/* Recent Orders */}
-                    <Grid item xs={12}>
-                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                        {/* <Orders /> */}
-                    </Paper>
+                    <Grid item xs={12} md={12} lg={12}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 440,
+                            }}
+                        >
+                        <Outlet context={ [userData, setUserData] }/>
+                        </Paper>
                     </Grid>
                 </Grid>
                 <Copyright sx={{ pt: 4 }} />
@@ -233,4 +212,4 @@ const PortfolioPage = () => {
     )
 }
 
-export default PortfolioPage;
+export default Home;

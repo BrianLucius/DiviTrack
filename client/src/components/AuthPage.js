@@ -42,12 +42,6 @@ function a11yProps(index) {
 
 const theme = createTheme();
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        },
-    });
-
 const AuthPage = () => {
     const [value, setValue] = React.useState(0);
 

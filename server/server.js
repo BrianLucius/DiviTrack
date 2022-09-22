@@ -15,5 +15,7 @@ app.use( express.urlencoded({ extended: true }));
 
 require("./config/mongoose.config");
 require("./routes/user.routes")(app);
+require("./routes/portfolio.routes")(app);
+require("./routes/dividend.routes")(app);
 
 app.listen( port, () => console.log(`Listening on port: ${port}`));
