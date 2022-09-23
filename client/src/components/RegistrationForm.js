@@ -72,7 +72,7 @@ const RegistrationForm = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up for DiviTrack
+                    Create a DiviTrack Account
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleRegister} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
