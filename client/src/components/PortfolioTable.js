@@ -33,6 +33,14 @@ const formatCurrency = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 5, // (causes 2500.99 to be printed as $2,501)
   });
 
+const formatPaymentCurrency = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    // These options are needed to round to whole numbers if that's what you want.
+    minimumFractionDigits: 2, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    maximumFractionDigits: 2, // (causes 2500.99 to be printed as $2,501)
+  });
+
   const formatNum = new Intl.NumberFormat('en-US', {
     // These options are needed to round to whole numbers if that's what you want.
     minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
@@ -54,7 +62,7 @@ const formatCurrency = new Intl.NumberFormat('en-US', {
       }
   }
 
-function createData(symbol, company, shares, frequency, lastDivDate, lastDiv, nextDivDate) {
+function createData(symbol, company, shares, frequency, lastDivDate, lastDiv, nextDivDate, divRecvd) {
     return {
       symbol,
       company,
@@ -63,6 +71,7 @@ function createData(symbol, company, shares, frequency, lastDivDate, lastDiv, ne
       lastDivDate, 
       lastDiv, 
       nextDivDate,
+      divRecvd
     };
   }
   
@@ -83,7 +92,8 @@ function createData(symbol, company, shares, frequency, lastDivDate, lastDiv, ne
                 divFrequencyText(investment.dividendId.dividendHistory[0].frequency),
                 moment(investment.dividendId.dividendHistory[0].pay_date).format('ll'),
                 formatCurrency.format(investment.dividendId.dividendHistory[0].cash_amount),
-                moment(investment.dividendId.dividendHistory[0].pay_date).add(12/investment.dividendId.dividendHistory[0].frequency,'months').format('ll')
+                moment(investment.dividendId.dividendHistory[0].pay_date).add(12/investment.dividendId.dividendHistory[0].frequency,'months').format('ll'),
+                formatPaymentCurrency.format(investment.shares*investment.dividendId.dividendHistory[0].cash_amount)
             )))
     return rows;
     }
@@ -160,6 +170,12 @@ const headCells = [
       numeric: false,
       disablePadding: false,
       label: 'Next Dividend Date (Expected)',
+    },
+    {
+      id: 'divRecvd',
+      numeric: true,
+      disablePadding: false,
+      label: 'Dividend Payment',
     },
   ];
 
@@ -372,6 +388,7 @@ export default function PortfolioTable(props) {
                       <TableCell align="left">{row.lastDivDate}</TableCell>
                       <TableCell align="left">{row.lastDiv}</TableCell>
                       <TableCell align="left">{row.nextDivDate}</TableCell>
+                      <TableCell align="left">{row.divRecvd}</TableCell>
                     </TableRow>
                   );
                 })}
