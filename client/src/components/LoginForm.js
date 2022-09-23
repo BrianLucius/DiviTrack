@@ -69,7 +69,7 @@ const LoginForm = () => {
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign in
+                DiviTrack Sign in
             </Typography>
             <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
                 {loginErrors.hasOwnProperty('auth') ? <div className="alert alert-danger p-1 mt-1 mb-0">{loginErrors.auth.message}</div> : ""}  
