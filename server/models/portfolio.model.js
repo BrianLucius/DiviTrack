@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const PortfolioSchema = new mongoose.Schema({
     userId: {
-        type: String
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
     },
     symbol: {
         type: String
@@ -12,6 +14,10 @@ const PortfolioSchema = new mongoose.Schema({
     },
     acquired: {
         type: Date
+    },
+    dividendId: {
+        type: Schema.Types.ObjectId, 
+        ref: 'Dividends'
     }
   }, {timestamps: true});
 

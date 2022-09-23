@@ -23,7 +23,7 @@ module.exports.findOnePortfolio = (req, res) => {
 
 //Find Portfolio By User
 module.exports.findPortfolioByUser = (req, res) => {
-    Portfolio.find({userId: req.params.userId})
+    Portfolio.find({userId: req.params.userId}).populate('dividendId')
         .then(foundPortfolio => res.json({data: foundPortfolio}))
         .catch(err => res.json({message: 'Something went wrong', error: err}));
 }

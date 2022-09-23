@@ -7,21 +7,16 @@ import Grid from '@mui/material/Grid';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 
-
 const AddSymbol = () => {
   const [symbolDetails, setSymbolDetails] = useState({});
   const [symbolLoaded, setSymbolLoaded] = useState(false);
   const [symbolFound, setSymbolFound] = useState(false);
   const [userData, setUserData] = useOutletContext();
   const navigate = useNavigate();
+  const finnhub_api_key = process.env.REACT_APP_FINNHUB_API_KEY;
+  const polygon_api_key = process.env.REACT_APP_POLYGON_API_KEY;
 
-  
   const onChangeHandlerSymbol = (e) => {
-    const finnhub_api_key = process.env.REACT_APP_FINNHUB_API_KEY;
-
-    if (e.target.value !== "" ) {
-      console.log(e.target.value.toUpperCase());
-    }
     setSymbolLoaded(false);
     axios.get(`https://finnhub.io/api/v1/search?q=${e.target.value.toUpperCase()}&token=${finnhub_api_key}`)
     .then(response => {
@@ -39,7 +34,6 @@ const AddSymbol = () => {
 
   async function handleAddSymbol(e) {
       e.preventDefault();
-      const polygon_api_key = process.env.REACT_APP_POLYGON_API_KEY;
 
       const formData = new FormData(e.currentTarget);
       let formObject = {};
@@ -47,19 +41,20 @@ const AddSymbol = () => {
       formObject["userId"] = userData.loggedInUserId;
 
     try {
-      await axios.post("http://localhost:8000/api/portfolios", formObject);
       const checkDividend = await axios.get(`http://localhost:8000/api/dividends/symbol/${formObject.symbol.toLowerCase()}`);
-      setSymbolFound(checkDividend.data.data.length !== 0); 
-      if (!symbolFound) {
-        let dividendData = ({});
-        const getDividends = await axios.get(`https://api.polygon.io/v3/reference/dividends?ticker=${formObject.symbol.toUpperCase()}&apiKey=${polygon_api_key}`);
-        dividendData["symbol"] = formObject.symbol.toLowerCase();
-        dividendData["dividendHistory"] = getDividends.data.results;
-        await axios.post("http://localhost:8000/api/dividends", dividendData);
-        setSymbolDetails({});
+      if (checkDividend.data.data.length !== 0) {
+        formObject["dividendId"] = checkDividend.data.data[0]._id;
+        } else {
+          let dividendData = ({});
+          const getDividends = await axios.get(`https://api.polygon.io/v3/reference/dividends?ticker=${formObject.symbol.toUpperCase()}&apiKey=${polygon_api_key}`);
+          dividendData["symbol"] = formObject.symbol.toLowerCase();
+          dividendData["company"] = symbolDetails.description;
+          dividendData["dividendHistory"] = getDividends.data.results;
+          const newDividend = await axios.post("http://localhost:8000/api/dividends", dividendData);
+          formObject["dividendId"] = newDividend.data.data._id;
+        }
+        await axios.post("http://localhost:8000/api/portfolios", formObject);
         navigate("/home/portfolio");
-      }
-      
     } catch(error) { 
       console.log("There was an error: ", error);
       };

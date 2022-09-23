@@ -15,6 +15,9 @@ const DividendsSchema = new mongoose.Schema({
     symbol: {
         type: String
     },
+    company: {
+        type: String
+    },
     dividendHistory: [DividendSchema]
   }, {timestamps: true});
 
