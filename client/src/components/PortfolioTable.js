@@ -1,12 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha, emphasize } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead, { tableHeadClasses } from '@mui/material/TableHead';
+import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
@@ -19,10 +19,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { blue, grey } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 import { visuallyHidden } from '@mui/utils';
 import moment from 'moment';
-import { borderBottom, borders } from '@mui/system';
 const _ = require('lodash');
 
 const formatCurrency = new Intl.NumberFormat('en-US', {
@@ -59,6 +58,7 @@ const formatPaymentCurrency = new Intl.NumberFormat('en-US', {
         return "Quarterly";
       case 12: 
         return "Monthly";
+      default:
       }
   }
 
@@ -180,7 +180,8 @@ const headCells = [
   ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  // const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { order, orderBy, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -369,7 +370,6 @@ export default function PortfolioTable(props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
@@ -407,7 +407,7 @@ export default function PortfolioTable(props) {
         <TablePagination
           sx={{".MuiTablePagination-selectLabel": {
                 mb: 0,},
-               ".MuiTablePagination-displayedRows": {
+              ".MuiTablePagination-displayedRows": {
                 mb: 0,},
               }}
           rowsPerPageOptions={[5, 10, 25]}
