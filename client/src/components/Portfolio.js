@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import moment from 'moment';
+import PortfolioTable from './PortfolioTable';
+import GetStarted from './GetStarted';
 import axios from 'axios';
 
 const Portfolio = () => {
@@ -36,55 +37,10 @@ const Portfolio = () => {
         console.log("There was an error: ", error)});
 }, [userData.loggedInUserId]);
 
-  const divFrequencyText = (value) => {
-    switch (value) {
-      case 0: 
-        return "One-Time";
-      case 1: 
-        return "Annually";
-      case 2: 
-        return "Bi-annually";
-      case 4: 
-        return "Quarterly";
-      case 12: 
-        return "Monthly";
-      }
-  }
-
   return (
-    <div className="container mb-5">
-          <table className="table table-striped border border-secondary align-middle shadow">
-            <thead className="table-primary">
-              <tr>
-                <th>Symbol</th>
-                <th>Company Name</th>
-                <th>Shares</th>
-                <th>Dividend Frequency</th>
-                <th>Last Dividend Date</th>
-                <th>Last Dividend</th>
-                <th>Next Dividend Date (Expected)</th>
-              </tr>
-            </thead>
-            <tbody className="table-group-divider">
-              {loaded &&
-                portfolioData.map((investment, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{investment.symbol.toUpperCase()}</td>
-                      <td>{investment.dividendId.company.replace(/\w+/g, _.capitalize)}</td>
-                      <td>{formatNum.format(investment.shares)}</td>
-                      <td>{divFrequencyText(investment.dividendId.dividendHistory[0].frequency)}</td>
-                      <td>{moment(investment.dividendId.dividendHistory[0].pay_date).format('ll')}</td>
-                      <td>{formatCurrency.format(investment.dividendId.dividendHistory[0].cash_amount)}</td>
-                      <td>{moment(investment.dividendId.dividendHistory[0].pay_date).add(12/investment.dividendId.dividendHistory[0].frequency,'months').format('ll')}</td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-    </div>
-
+    <>
+      {loaded && portfolioData.length === 0 ? <GetStarted /> : loaded && <PortfolioTable portfolioData={portfolioData}/>}
+    </>
   )
 }
 

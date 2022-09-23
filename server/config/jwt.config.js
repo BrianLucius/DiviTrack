@@ -8,7 +8,9 @@ module.exports.authenticate = (req, res, next) => {
         if (err) { 
             res.status(401).json({verified: false});
         } else {
-            req.userId = payload.id
+            req.userId = payload.id;
+            req.firstName = payload.firstName;
+            req.lastName = payload.lastName;
         next();
         }
     });

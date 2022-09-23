@@ -28,7 +28,6 @@ function Copyright(props) {
             DiviTrack
             </Link>{' '}
             {new Date().getFullYear()}
-            {'.'}
         </Typography>
     );
 }
@@ -146,16 +145,20 @@ const Home = () => {
                 </IconButton>
                 <Typography
                     component="h1"
-                    variant="h6"
+                    variant="h5"
                     color="inherit"
                     noWrap
                     sx={{ flexGrow: 1 }}
                 >
                     {activePageName}
                 </Typography>
-                <IconButton color="inherit">
+                <Typography
+                    component="h1"
+                    variant="h6"
+                    color="inherit"
+                    noWrap>
                     {userData.firstName} {userData.lastName}
-                </IconButton>
+                </Typography>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
@@ -192,16 +195,16 @@ const Home = () => {
                 <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={12} lg={12}>
-                        <Paper
+                        {/* <Paper
                             sx={{
                                 p: 2,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 height: 440,
                             }}
-                        >
+                        > */}
                         <Outlet context={ [userData, setUserData] }/>
-                        </Paper>
+                        {/* </Paper> */}
                     </Grid>
                 </Grid>
                 <Copyright sx={{ pt: 4 }} />

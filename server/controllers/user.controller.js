@@ -13,7 +13,7 @@ module.exports.register = async (req, res) => {
     } 
     User.create(req.body)
         .then(user => {
-            const userToken = jwt.sign({id: user._id}, secret);
+            const userToken = jwt.sign({id: user._id, firstName: user.firstName, lastName: user.lastName}, secret);
 
             res.cookie("usertoken", userToken, {httpOnly: true})
                 .json({ message: "Registration success for user: ", user: user });
@@ -33,7 +33,7 @@ module.exports.login = async(req, res) => {
         return res.status(400).json(errorText);
     }
 
-    const userToken = jwt.sign({id: user._id}, secret);
+    const userToken = jwt.sign({id: user._id, firstName: user.firstName, lastName: user.lastName}, secret);
     res.cookie("usertoken", userToken, {httpOnly: true})
         .json({ message: "Login success!" });
 }
@@ -52,7 +52,7 @@ module.exports.checkUser = async(req, res, next) => {
 }
 
 module.exports.getAll = (req, res) => {
-    return res.json({loggedInUserId: req.userId});
+    return res.json({loggedInUserId: req.userId, firstName: req.firstName, lastName: req.lastName});
 }
 
 module.exports.logout = (req, res) => {

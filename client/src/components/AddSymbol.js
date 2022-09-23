@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 
@@ -61,76 +62,85 @@ const AddSymbol = () => {
   }
 
   return (
-    <Box component="form" noValidate onSubmit={handleAddSymbol} sx={{ mt: 3 }}>
-      <Grid container spacing={2}>
-        <Grid container spacing={2} item xs={6}>
-          <Grid item xs={12}>
-              <TextField
-              onChange={(e)=>{onChangeHandlerSymbol(e)}}
-              autoComplete="symbol"
-              name="symbol"
-              required
-              fullWidth
-              id="symbol"
-              label="Stock Symbol"
-              autoFocus
-              inputProps={{ style: {textTransform: "uppercase" }}}
-              />
+    <Paper
+        sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: 440,
+        }}
+    >
+      <Box component="form" noValidate onSubmit={handleAddSymbol} sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid container spacing={2} item xs={6}>
+            <Grid item xs={12}>
+                <TextField
+                onChange={(e)=>{onChangeHandlerSymbol(e)}}
+                autoComplete="symbol"
+                name="symbol"
+                required
+                fullWidth
+                id="symbol"
+                label="Stock Symbol"
+                autoFocus
+                inputProps={{ style: {textTransform: "uppercase" }}}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                id="shares"
+                label="Number of Shares"
+                name="shares"
+                type="number"
+                autoComplete="shares"
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                fullWidth
+                name="acquired"
+                label="Date Acquired"
+                InputLabelProps={{ shrink: true, required: true }}
+                type="date"
+                id="acquired"
+                />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-              <TextField
-              required
-              fullWidth
-              id="shares"
-              label="Number of Shares"
-              name="shares"
-              type="number"
-              autoComplete="shares"
-              />
-          </Grid>
-          <Grid item xs={12}>
-              <TextField
-              fullWidth
-              name="acquired"
-              label="Date Acquired"
-              InputLabelProps={{ shrink: true, required: true }}
-              type="date"
-              id="acquired"
-              />
+          <Grid container spacing={2} item xs={6} alignItems='center'>
+            <Grid item xs={12}>
+            <Typography component="h6" variant="h6" >
+                Company: {symbolLoaded && symbolDetails.description}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography component="h6" variant="h6">
+                &nbsp;
+                {/* Last Dividend: {symbolDetails.lastDividend} */}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography component="h6" variant="h6">
+                &nbsp;
+                {/* Last Dividend Date: {symbolDetails.lastDivdendDate} */}
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
-        <Grid container spacing={2} item xs={6} alignItems='center'>
-          <Grid item xs={12}>
-          <Typography component="h6" variant="h6" >
-              Company: {symbolLoaded && symbolDetails.description}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography component="h6" variant="h6">
-              &nbsp;
-              {/* Last Dividend: {symbolDetails.lastDividend} */}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography component="h6" variant="h6">
-              &nbsp;
-              {/* Last Dividend Date: {symbolDetails.lastDivdendDate} */}
-            </Typography>
-          </Grid>
+        <Grid container spacing={2}>
+          
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        
-      </Grid>
-      <Button
-      type="submit"
-      fullWidth
-      variant="contained"
-      sx={{ mt: 3, mb: 2 }}
-      >
-      Add to Portfolio
-      </Button>
-  </Box>
+        <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        >
+        Add to Portfolio
+        </Button>
+      </Box>
+    </Paper>
   )
 }
 
