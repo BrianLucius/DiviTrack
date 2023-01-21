@@ -21,7 +21,7 @@ Formatting and styling is accomplished with the [Material UI](https://mui.com/) 
 * Left menu bar navigation is available to switch between the Portfolio view and the Add Symbol workflow.
 * During the Add Symbol workflow, the users input is queried against the APIs in real-time to find the closest matching company. Once the correct symbol is identified, the remaining security details can be populated and the symbol added to their portfolio.
 * In the portfolio view, the table can be sorted by any column name, navigate forward and back through larger portfolios and the number of rows to display selected.
-* There were additional features planned for the MVP that didn't have time to make it in to this iteration.
+* There were additional features planned for the MVP that didn't have time to make it in to this iteration.  
 A demo video of the DiviTrack app is [here.](https://youtu.be/j4fMSsJurRI)  
 
 ## 🙏 Gratitude
